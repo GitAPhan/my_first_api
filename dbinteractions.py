@@ -35,3 +35,26 @@ def disconnect_db(conn, cursor):
     except Exception as e:
         print(e)
         print('connection close error')
+
+def get_animals_db():
+    animals = []
+    conn, cursor = connect_db()
+
+    try:
+        cursor.execute("select name from animals")
+        animals_raw = cursor.fetchall()
+    except db.OperationalError:
+        print(
+            "something went wrong with the DB, please try again in 5 minutes")
+    except db.ProgrammingError:
+        print("Error running DB Query, please file bug report")
+    except:
+        print("Something went wrong!")
+
+    disconnect_db(conn, cursor)
+
+    # create new list 
+    for animal in animals_raw:
+        animals.append(animal[0])
+
+    return animals

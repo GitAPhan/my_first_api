@@ -1,6 +1,6 @@
-import mimetypes
 from flask import Flask, request, Response
 import json 
+import dbinteractions as db
 
 # custom error
 class EmptyValueField(Exception):
@@ -9,8 +9,12 @@ class EmptyValueField(Exception):
 app = Flask(__name__)
 
 # hard coded animals list
-animals = ['rabbit', 'rat', 'dog', 'cat', 'elephant', 'cow', 'monkey', 'snake']
+# animals = ['rabbit', 'rat', 'dog', 'cat', 'elephant', 'cow', 'monkey', 'snake']
 
+# animals list from database
+animals = db.get_animals_db()
+print(animals)
+ 
 # GET request
 @app.get('/animals')
 def get_animals():
